@@ -41,12 +41,25 @@ const player2 = new Player({
     x: 300,
     y: 100
 })
+
+const keys = {
+    d : {
+        pressed : false
+    },
+    q : {
+        pressed : false
+    }
+}
+
 const animate = () => {
     window.requestAnimationFrame(animate)
     ctxt.fillStyle = 'white'
     ctxt.fillRect(0, 0, canvas.width, canvas.height)
     player.update()
     player2.update()
+    player.velocity.x = 0
+    if (keys.d.pressed) player.velocity.x = 1
+    else if (keys.q.pressed) player.velocity.x = -1
 }
 
 animate()
@@ -54,13 +67,24 @@ animate()
 window.addEventListener('keydown', (event) => {
     switch (event.key) {
         case 'd':
-            player.velocity.x = 1
+            keys.d.pressed = true
             break
         case 'q':
-            player.velocity.x = -1
+            keys.q.pressed = true
             break
         case 'z':
             player.velocity.y = -20
+            break
+    }
+})
+
+window.addEventListener('keyup', (event) => {
+    switch (event.key) {
+        case 'd':
+            keys.d.pressed = false
+            break
+        case 'q':
+            keys.q.pressed = false
             break
     }
 })
