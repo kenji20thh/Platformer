@@ -8,11 +8,11 @@ const gravity = 0.5
 
 class Player {
     constructor(position) {
-        this.position = position  
+        this.position = position
         this.velocity = {
-            x:0,
-            y:1
-        }  
+            x: 0,
+            y: 1
+        }
         this.height = 100
     }
     draw() {
@@ -21,8 +21,10 @@ class Player {
     }
     update() {
         this.draw()
+
+        this.position.x += this.velocity.x
         this.position.y += this.velocity.y
-        if (this.position.y + this.height + this.velocity.y< canvas.height) {
+        if (this.position.y + this.height + this.velocity.y < canvas.height) {
             this.velocity.y += gravity
         } else {
             this.velocity.y = 0
@@ -31,20 +33,31 @@ class Player {
 }
 
 const player = new Player({
-    x:0,
-    y:0
+    x: 100,
+    y: 0
 })
 
-const player2 =new Player({
-    x:100,
-    y:100
+const player2 = new Player({
+    x: 300,
+    y: 100
 })
 const animate = () => {
     window.requestAnimationFrame(animate)
     ctxt.fillStyle = 'white'
     ctxt.fillRect(0, 0, canvas.width, canvas.height)
     player.update()
-    player2.update()    
+    player2.update()
 }
 
 animate()
+
+window.addEventListener('keydown', (event) => {
+    switch (event.key) {
+        case 'd':
+            player.velocity.x = 1
+            break
+        case 'q':
+            player.velocity.x = -1
+            break
+    }
+})
