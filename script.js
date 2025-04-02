@@ -4,6 +4,11 @@ const ctxt = canvas.getContext('2d')
 canvas.width = 1024
 canvas.height = 576
 
+const scaledCanvas = {
+    width : canvas.width / 4,
+    height : canvas.height / 4
+}
+
 const gravity = 0.5
 
 class Sprite {
@@ -79,13 +84,18 @@ const animate = () => {
     window.requestAnimationFrame(animate)
     ctxt.fillStyle = 'white'
     ctxt.fillRect(0, 0, canvas.width, canvas.height)
+    
+    ctxt.save()
+    ctxt.scale(4,4)
+    ctxt.translate(0, scaledCanvas.height - background.image.height)
     background.update()
+    ctxt.restore()
 
     player.update()
     player2.update()
     player.velocity.x = 0
-    if (keys.d.pressed) player.velocity.x = 1
-    else if (keys.q.pressed) player.velocity.x = -1
+    if (keys.d.pressed) player.velocity.x = 3
+    else if (keys.q.pressed) player.velocity.x = -3
 }
 
 animate()
