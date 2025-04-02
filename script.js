@@ -5,8 +5,8 @@ canvas.width = 1024
 canvas.height = 576
 
 const scaledCanvas = {
-    width : canvas.width / 4,
-    height : canvas.height / 4
+    width: canvas.width / 4,
+    height: canvas.height / 4
 }
 
 const gravity = 0.5
@@ -74,8 +74,8 @@ const keys = {
 
 const background = new Sprite({
     position: {
-        x:0,
-        y:0
+        x: 0,
+        y: 0
     },
     imageSrc: './assets/background.png'
 })
@@ -84,9 +84,9 @@ const animate = () => {
     window.requestAnimationFrame(animate)
     ctxt.fillStyle = 'white'
     ctxt.fillRect(0, 0, canvas.width, canvas.height)
-    
+
     ctxt.save()
-    ctxt.scale(4,4)
+    ctxt.scale(4, 4)
     ctxt.translate(0, scaledCanvas.height - background.image.height)
     background.update()
     ctxt.restore()
