@@ -5,8 +5,8 @@ class Player {
             x: 0,
             y: 1
         }
-        this.height = 100
-        this.width = 100
+        this.height = 100 / 4
+        this.width = 100 / 4
         this.collisionBlocks = collisionBlocks
     }
     draw() {
@@ -16,8 +16,28 @@ class Player {
     update() {
         this.draw()
         this.position.x += this.velocity.x
+        this.checkForHorizontalCollisions()
         this.applyGravity()
         this.checkForVerticalCollisions()
+    }
+    checkForHorizontalCollisions() {
+        for (let i = 0; i < this.collisionBlocks.length; i++) {
+            const collisionBlock = this.collisionBlocks[i]
+            if (collisions({
+                object1: this,
+                object2: collisionBlock
+            })) {
+                if (this.velocity.x > 0) {
+                    this.velocity.x = 0
+                    this.position.x = collisionBlock.position.x - this.width - 0.01
+                    break
+                } else if (this.velocity.x < 0) {
+                    this.velocity.x = 0
+                    this.position.x = collisionBlock.position.x + collisionBlock.width + 0.01
+                    break
+                }
+            }
+        }
     }
     applyGravity() {
         this.position.y += this.velocity.y
@@ -30,7 +50,15 @@ class Player {
                 object1: this,
                 object2: collisionBlock
             })) {
-                console.log('colliding')
+                if (this.velocity.y > 0) {
+                    this.velocity.y = 0
+                    this.position.y = collisionBlock.position.y - this.height - 0.01
+                    break
+                } else if (this.velocity.y < 0) {
+                    this.velocity.y = 0
+                    this.position.y = collisionBlock.position.y + collisionBlock.height + 0.01
+                    break
+                }
             }
         }
     }

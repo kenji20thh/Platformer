@@ -53,7 +53,7 @@ const gravity = 0.5
 
 const player = new Player({
     position: {
-        x: 500,
+        x: 100,
         y: 0
     },
     collisionBlocks: collisionBlocks
@@ -92,13 +92,14 @@ const animate = () => {
         block.update()
     })
 
-    ctxt.restore()
-
-
     player.update()
     player.velocity.x = 0
     if (keys.d.pressed) player.velocity.x = 3
     else if (keys.q.pressed) player.velocity.x = -3
+    
+    ctxt.restore()
+
+
 }
 
 animate()
@@ -112,7 +113,7 @@ window.addEventListener('keydown', (event) => {
             keys.q.pressed = true
             break
         case 'z':
-            player.velocity.y = -20
+            player.velocity.y = -8
             break
     }
 })
