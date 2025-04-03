@@ -14,64 +14,50 @@ for (let i = 0; i < floorCollisions.length; i += 36) {
     floorCollisions2D.push(floorCollisions.slice(i, i + 36))
 }
 
-floorCollisions2D.forEach((row) => {
-    row.forEach((symbol) => {
-        
+const collisionBlocks = []
+floorCollisions2D.forEach((row, y) => {
+    row.forEach((symbol, x) => {
+        if (symbol === 202) {
+            console.log('draw block')
+            collisionBlocks.push(new CollisionBlock({
+                position: {
+                    x: x * 16,
+                    y: y * 16
+                }
+            }))
+        }
     })
 })
 
-const gravity = 0.5
-
-class Sprite {
-    constructor({ position, imageSrc }) {
-        this.position = position
-        this.image = new Image()
-        this.image.src = imageSrc
-    }
-    draw() {
-        if (!this.image) return
-        ctxt.drawImage(this.image, this.position.x, this.position.y)
-    }
-
-    update() {
-        this.draw()
-    }
+const platformCollisions2D = []
+for (let i = 0; i < platformCollisions.length; i += 36) {
+    platformCollisions2D.push(platformCollisions.slice(i, i + 36))
 }
 
-class Player {
-    constructor(position) {
-        this.position = position
-        this.velocity = {
-            x: 0,
-            y: 1
+const platformCollisionBlocks = []
+platformCollisions2D.forEach((row, y) => {
+    row.forEach((symbol, x) => {
+        if (symbol === 202) {
+            platformCollisionBlocks.push(new CollisionBlock({
+                position: {
+                    x: x * 16,
+                    y: y * 16
+                }
+            }))
         }
-        this.height = 100
-    }
-    draw() {
-        ctxt.fillStyle = 'red'
-        ctxt.fillRect(this.position.x, this.position.y, 100, this.height)
-    }
-    update() {
-        this.draw()
-
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
-        if (this.position.y + this.height + this.velocity.y < canvas.height) {
-            this.velocity.y += gravity
-        } else {
-            this.velocity.y = 0
-        }
-    }
-}
-
-const player = new Player({
-    x: 100,
-    y: 0
+    })
 })
 
-const player2 = new Player({
-    x: 300,
-    y: 100
+
+
+const gravity = 0.5
+
+const player = new Player({
+    position: {
+        x: 500,
+        y: 0
+    },
+    collisionBlocks: collisionBlocks
 })
 
 const keys = {
@@ -100,10 +86,17 @@ const animate = () => {
     ctxt.scale(4, 4)
     ctxt.translate(0, scaledCanvas.height - background.image.height)
     background.update()
+    collisionBlocks.forEach((block) => {
+        block.update()
+    })
+    platformCollisionBlocks.forEach((block) => {
+        block.update()
+    })
+
     ctxt.restore()
 
+
     player.update()
-    player2.update()
     player.velocity.x = 0
     if (keys.d.pressed) player.velocity.x = 3
     else if (keys.q.pressed) player.velocity.x = -3

@@ -1,25 +1,32 @@
 class Player {
-    constructor(position) {
+    constructor({ position, collisionBlocks }) {
         this.position = position
         this.velocity = {
             x: 0,
             y: 1
         }
         this.height = 100
+        this.width = 100
+        this.collisionBlocks = collisionBlocks
     }
     draw() {
         ctxt.fillStyle = 'red'
-        ctxt.fillRect(this.position.x, this.position.y, 100, this.height)
+        ctxt.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
     update() {
         this.draw()
-
         this.position.x += this.velocity.x
+        this.applyGravity()
+        this.checkForVerticalCollisions()
+    }
+    applyGravity() {
         this.position.y += this.velocity.y
-        if (this.position.y + this.height + this.velocity.y < canvas.height) {
-            this.velocity.y += gravity
-        } else {
-            this.velocity.y = 0
+        this.velocity.y += gravity
+    }
+    checkForVerticalCollisions() {
+        for (let i = 0 ; i < this.collisionBlocks.length ; i++) {
+            const collisionBlock = this.collisionBlocks[i]
+            if ()
         }
     }
 }
