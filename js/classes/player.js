@@ -24,9 +24,14 @@ class Player {
         this.velocity.y += gravity
     }
     checkForVerticalCollisions() {
-        for (let i = 0 ; i < this.collisionBlocks.length ; i++) {
+        for (let i = 0; i < this.collisionBlocks.length; i++) {
             const collisionBlock = this.collisionBlocks[i]
-            if ()
+            if (collisions({
+                object1: this,
+                object2: collisionBlock
+            })) {
+                console.log('colliding')
+            }
         }
     }
 }
