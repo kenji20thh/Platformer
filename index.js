@@ -18,7 +18,6 @@ const collisionBlocks = []
 floorCollisions2D.forEach((row, y) => {
     row.forEach((symbol, x) => {
         if (symbol === 202) {
-            console.log('draw block')
             collisionBlocks.push(new CollisionBlock({
                 position: {
                     x: x * 16,
