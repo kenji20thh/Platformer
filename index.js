@@ -56,7 +56,8 @@ const player = new Player({
         x: 100,
         y: 0
     },
-    collisionBlocks: collisionBlocks
+    collisionBlocks: collisionBlocks,
+    imageSrc : './assets/warrior/idle.png'
 })
 
 const keys = {
